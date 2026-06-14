@@ -1,6 +1,11 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import * as dotenv from 'dotenv';
+import { registerYoutubeTools } from './tools/youtube.js';
+
+// Load environment variables
+dotenv.config({ path: '.env.local' });
+dotenv.config();
 
 // Setup MCP Server
 const server = new Server(
@@ -16,36 +21,7 @@ const server = new Server(
 );
 
 // Register Tools
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: 'ping',
-        description: 'A simple ping tool to test the MCP server connection.',
-        inputSchema: {
-          type: 'object',
-          properties: {},
-        },
-      },
-    ],
-  };
-});
-
-// Handle Tool Execution
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  if (request.params.name === 'ping') {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: 'pong! The MCP server is running perfectly.',
-        },
-      ],
-    };
-  }
-
-  throw new Error(`Tool not found: ${request.params.name}`);
-});
+registerYoutubeTools(server);
 
 // Start Server
 async function main() {

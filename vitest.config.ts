@@ -1,12 +1,10 @@
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
   test: {
-    environment: 'jsdom',
+    environment: 'node',
     globals: true,
-    setupFiles: ['./vitest.setup.ts'],
+    include: ['src/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -16,14 +14,7 @@ export default defineConfig({
         branches: 99,
         statements: 99,
       },
-      exclude: [
-        'node_modules/',
-        '.next/',
-        'vitest.config.ts',
-        'vitest.setup.ts',
-        'next.config.ts',
-        'eslint.config.mjs',
-      ],
+      exclude: ['node_modules/', 'build/', 'vitest.config.ts', 'eslint.config.mjs', 'src/index.ts'],
     },
   },
 });
