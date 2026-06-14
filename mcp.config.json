@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "youtube-analytics": {
+      "command": "npx",
+      "args": ["-y", "@pauling-ai/youtube-mcp-server"],
+      "env": {
+        "YOUTUBE_API_KEY": ""
+      }
+    },
+    "meta-ads": {
+      "command": "npx",
+      "args": ["-y", "admcp"],
+      "env": {
+        "META_ACCESS_TOKEN": ""
+      }
+    }
+  }
+}
