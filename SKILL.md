@@ -1,49 +1,41 @@
 ---
 name: 'Deep Marketing Insights (Browser Protocol)'
-description: 'Fetch and analyze deep social media marketing insights (Reach, Retention, Demographics) directly from platform UI dashboards bypassing API limits.'
+description: 'Fetch and analyze exhaustive social media marketing insights directly from platform UI dashboards bypassing API limits, outputting pure data and strategic reports.'
 ---
 
-# Deep Marketing Insights (Browser Protocol)
+# Deep Marketing Insights (Sequential Browser Protocol)
 
 ## When to use this skill
 Trigger this skill whenever the user asks to:
-- Fetch deep insights (Reach, Impressions, Retention, Demographics) for a specific marketing campaign, MV, or post across multiple platforms (YouTube, Facebook, Instagram, Threads).
+- Fetch deep insights for a specific marketing campaign, MV, or post across multiple platforms (YouTube, Facebook, Instagram, Threads).
 - Overcome the API limitations of Meta's "Professional Mode" personal profiles by simulating browser navigation.
-- Generate a professional L5 Marketing Strategy report based on real backend data.
+- Extract EXHAUSTIVE, no-stone-left-unturned raw data.
 
-## Execution Protocol: The 4-Agent Concurrent Swarm
+## Execution Protocol: The Sequential Single-Agent
 
-To execute this skill efficiently, you **MUST** spawn four independent `browser` subagents concurrently (in a single tool call) to process the four platforms in parallel.
+To execute this skill reliably without overwhelming the local Chromium instance, you **MUST** spawn exactly ONE `browser` subagent. You will provide this single agent with a strict 4-step sequential checklist to execute one by one.
 
-Use the `invoke_subagent` tool with an array of 4 subagents, assigning each one a specific platform target.
+Use the `invoke_subagent` tool with a single subagent. 
 
-### Strict Global Rules for ALL Subagents
-1.  **Relevance Filtering (CRITICAL):** The user's algorithm and view counts will be skewed if you click on the wrong content. **You MUST ONLY click on posts/reels/videos explicitly related to the requested target (e.g., the MV title, specific keywords).** Visually verify the caption/thumbnail before clicking. Do NOT click into irrelevant Reels or Shorts while browsing.
-2.  **Login State:** Assume the user is already logged into the default Chrome profile for all platforms. Do not attempt to log in or use credentials.
-3.  **Language Requirement:** All synthesis, analysis, insights, and final reports returned to the user **MUST ALWAYS be in Traditional Chinese (Taiwan)**. Do not output English analysis.
+### Strict Global Rules for the Subagent
+1.  **Exhaustive Extraction Mandate (CRITICAL):** Do NOT summarize data. You must extract literally every single numerical metric, chart data point, demographic percentage, traffic source, watch time, impressions, reach, and interaction count visible on the Insights/Analytics dashboard. If you see a number, record it.
+2.  **Relevance Filtering (CRITICAL):** You MUST ONLY click on posts/reels/videos explicitly related to the requested target. Visually verify the caption/thumbnail before clicking. Do NOT click irrelevant Reels or Shorts, as this skews algorithm and view counts.
+3.  **Language Requirement:** All synthesis, analysis, insights, and final reports returned to the user **MUST ALWAYS be in Traditional Chinese (Taiwan)**. 
 
-### Subagent 1: YouTube Analyst
-- **Target URL:** `https://studio.youtube.com/`
-- **Action:** Navigate to Content. Filter by the target video/MV title and related Shorts.
-- **Extraction Target:** Open Analytics. Extract Traffic Sources (percentages), Audience Demographics (Age/Gender/Top Geographies), and Audience Retention metric (average view duration or % viewed at specific timestamps).
+### Sequential Navigation Path (Prompt for the Subagent)
+Instruct the subagent to perform the following steps sequentially:
+- **Step 1: YouTube Analytics.** Navigate to `https://studio.youtube.com/` -> Content -> Filter by target. Open Analytics. Scrape every sub-tab (Overview, Reach, Engagement, Audience). Wait for data to load before proceeding to Step 2.
+- **Step 2: Facebook Insights.** Navigate to `https://www.facebook.com/timmatt.lee` -> Scroll timeline -> Find target posts -> Click **"View Insights" (查看洞察報告)**. Scrape every number in the modal.
+- **Step 3: Instagram Insights.** Navigate to `https://www.instagram.com/timmatt.lee/` (or Meta Business Suite if accessible). Find target -> Click "View Insights". Scrape Reach, Plays, Replays, Profile Activity.
+- **Step 4: Threads Engagement.** Navigate to `https://www.threads.net/@timmatt.lee` -> Find target -> Scrape all visible engagement numbers.
 
-### Subagent 2: Facebook Analyst
-- **Target URL:** `https://www.facebook.com/timmatt.lee`
-- **Action:** Scroll the timeline carefully. Identify posts strictly matching the target keywords.
-- **Extraction Target:** Click the **"View Insights" (查看洞察報告)** button below the relevant post. Extract Post Reach (觸觸及人數), Impressions (曝光次數), 3-second/1-minute views, and deep Demographics (Age/Gender) if available in the modal.
+## Post-Extraction Synthesis: The Two-Report Protocol
+Once the single subagent returns the exhaustive raw data from all 4 platforms, you MUST generate exactly **TWO** distinct Markdown artifacts:
 
-### Subagent 3: Instagram Analyst
-- **Target URL:** `https://www.instagram.com/timmatt.lee/` (or Meta Business Suite if accessible).
-- **Action:** Locate the specific Reels/Posts matching the target. Be highly cautious not to auto-play or click irrelevant Reels.
-- **Extraction Target:** Click "View Insights". Extract Accounts Reached (Followers vs. Non-followers), Plays vs. Replays, and Interactions.
+1.  `raw_insights_data_collection.md`
+    - **Purpose:** 100% pure data dump.
+    - **Format:** Absolutely NO AI commentary, NO strategic fluff, NO "insights" or opinions. Just raw, exhaustive metrics grouped by platform and post, presented in lists or tables.
 
-### Subagent 4: Threads Analyst
-- **Target URL:** `https://www.threads.net/@timmatt.lee`
-- **Action:** Scroll and locate threads containing the target keywords.
-- **Extraction Target:** Extract View counts and reply/quote engagement ratios.
-
-## Post-Extraction Synthesis
-Once all 4 subagents return their data:
-1. Synthesize the raw numbers into a Markdown artifact (e.g., `deep_marketing_insights.md`).
-2. Provide a data-driven "L5 Professional Action Plan" focusing on funnel optimization, demographic targeting, and platform-specific behavior.
-3. **Remember:** The final output MUST BE in Traditional Chinese.
+2.  `marketing_strategy_plan.md`
+    - **Purpose:** The L5 Professional Strategy based entirely on the raw data.
+    - **Format:** Focus on funnel optimization, demographic targeting, and specific action items for the next campaign.
