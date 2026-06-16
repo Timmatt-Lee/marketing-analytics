@@ -28,6 +28,7 @@ Instruct the subagent to perform the following steps sequentially:
 - **Step 2: Facebook Insights.** Navigate to `https://www.facebook.com/timmatt.lee` -> Scroll timeline -> Find target posts -> Click **"View Insights" (查看洞察報告)**. Scrape every number in the modal.
 - **Step 3: Instagram Insights.** Navigate to `https://www.instagram.com/timmatt.lee/` (or Meta Business Suite if accessible). Find target -> Click "View Insights". Scrape Reach, Plays, Replays, Profile Activity.
 - **Step 4: Threads Engagement.** Navigate to `https://www.threads.net/@timmatt.lee` -> Find target -> Scrape all visible engagement numbers.
+- **Step 5: LinkedIn Analytics.** Navigate to `https://www.linkedin.com/in/timmatt-lee/` -> Go to 'Activity' / 'Posts' -> Find target -> Click 'View analytics' or scrape impressions, reactions, and demographic/job title data if available.
 
 ## Post-Extraction Synthesis: The Two-Report Protocol
 Once the single subagent returns the exhaustive raw data from all 4 platforms, you MUST generate exactly **TWO** distinct Markdown artifacts:
